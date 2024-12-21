@@ -1,11 +1,11 @@
 package dev.rahil.productservice.controllers;
 
+import dev.rahil.productservice.exceptions.ProductNotFound;
 import dev.rahil.productservice.models.Product;
 import dev.rahil.productservice.services.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,14 +20,25 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public Product getProductById(@PathVariable("id") Long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFound {
         System.out.println("getProductById");
-        Product product = productService.getSingleProduct(id);
-        return product;
+        ResponseEntity<Product> responseEntity = new ResponseEntity<>(
+                productService.getSingleProduct(id),
+                HttpStatus.OK
+        );
+        return responseEntity;
     }
     @GetMapping()
     public List<Product> getAllProducts() {
         System.out.println("getAllProducts");
         return productService.getAllProducts();
+    }
+
+    @PostMapping("/products")
+    public Product createProduct(@RequestBody Product product) {
+        Product p = productService.createProduct(product.getId(),
+                product.getTitle(), product.getDescripion(), product.getPrice(),
+                product.getCategory().getTitle());
+        return p;
     }
 }
