@@ -1,10 +1,15 @@
 package dev.rahil.productservice.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Product extends BaseModel {
     private String title;
-    private String descripion;
+    private String Descripion;
     private Double price;
     private String imageUrl;
+    @ManyToOne
     private Category category;
 
     public String getTitle() {
@@ -16,11 +21,11 @@ public class Product extends BaseModel {
     }
 
     public String getDescripion() {
-        return descripion;
+        return Descripion;
     }
 
     public void setDescripion(String descripion) {
-        this.descripion = descripion;
+        Descripion = descripion;
     }
 
     public Double getPrice() {
