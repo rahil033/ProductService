@@ -3,10 +3,7 @@ package com.rahil.productservice.controllers;
 import com.rahil.productservice.models.Product;
 import com.rahil.productservice.services.FakeStoreProductService;
 import com.rahil.productservice.services.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,4 +23,25 @@ public class ProductController {
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable("id") Long id) {
+
+    }
+
+    @PatchMapping("/{id}")
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+        return productService.updateProduct(id, product);
+    }
+
+    @PutMapping("/{id}")
+    public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+        return null;
+    }
+
+    @PostMapping()
+    public Product createProduct(@RequestBody Product product) {
+        return null;
+    }
+
 }

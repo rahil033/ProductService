@@ -3,7 +3,10 @@ package com.rahil.productservice.services;
 import com.rahil.productservice.dtos.FakeStoreProductDto;
 import com.rahil.productservice.models.Category;
 import com.rahil.productservice.models.Product;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpMessageConverterExtractor;
+import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -37,6 +40,31 @@ public class FakeStoreProductService implements ProductService {
             products.add(convertFakeStoreProductDtoToProduct(fakeStoreProductDto));
         }
         return products;
+    }
+
+    @Override
+    public void deleteProduct(Long productId) {
+
+    }
+
+    @Override
+    public Product updateProduct(Long productId, Product product) {
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(product, FakeStoreProductDto.class);
+        HttpMessageConverterExtractor<FakeStoreProductDto> responseExtractor = new HttpMessageConverterExtractor(FakeStoreProductDto.class, restTemplate.getMessageConverters());
+        FakeStoreProductDto response  = restTemplate.execute("https://fakestoreapi.com/products/" + productId,
+                HttpMethod.PATCH, requestCallback, responseExtractor);
+        return convertFakeStoreProductDtoToProduct(response);
+
+    }
+
+    @Override
+    public Product replaceProduct(Long productId, Product product) {
+        return null;
+    }
+
+    @Override
+    public Product createProduct(Product product) {
+        return null;
     }
 
     private Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto fakeStoreProductDto) {
