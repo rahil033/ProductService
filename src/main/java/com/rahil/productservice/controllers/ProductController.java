@@ -1,5 +1,6 @@
 package com.rahil.productservice.controllers;
 
+import com.rahil.productservice.exceptions.ProductNotFoundException;
 import com.rahil.productservice.models.Product;
 import com.rahil.productservice.services.FakeStoreProductService;
 import com.rahil.productservice.services.ProductService;
@@ -18,11 +19,19 @@ public class ProductController {
         this.productService = productService;
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+//        ResponseEntity<Product> responseEntity = null;
+//
+//        try {
+//            Product product = productService.getSingleProduct(id);
+//            responseEntity = new ResponseEntity<>(product, HttpStatus.OK);
+//        } catch (Exception e) {
+//            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
         ResponseEntity<Product> responseEntity = new ResponseEntity<>(
                 productService.getSingleProduct(id),
-                HttpStatus.OK
-        );
+                HttpStatus.OK);
+
         return responseEntity;
     }
     @GetMapping()

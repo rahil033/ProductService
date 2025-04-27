@@ -1,6 +1,7 @@
 package com.rahil.productservice.services;
 
 import com.rahil.productservice.dtos.FakeStoreProductDto;
+import com.rahil.productservice.exceptions.ProductNotFoundException;
 import com.rahil.productservice.models.Category;
 import com.rahil.productservice.models.Product;
 import org.springframework.http.HttpMethod;
@@ -20,11 +21,16 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product getSingleProduct(Long productId) {
+    public Product getSingleProduct(Long productId) throws ProductNotFoundException {
+//        throw new ArithmeticException("Cannot divide by zero");
+
         //Call FakeStore to fetch the Product with the given id
         FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject(
                 "https://fakestoreapi.com/products/" + productId,
                 FakeStoreProductDto.class);
+        if (fakeStoreProductDto == null) {
+            throw new ProductNotFoundException("Product with ID " + productId + " not found");
+        }
         //Convert FakeStoreProductDto into Product
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
     }
