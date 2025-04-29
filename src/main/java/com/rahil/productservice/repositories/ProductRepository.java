@@ -1,7 +1,9 @@
 package com.rahil.productservice.repositories;
 
 import com.rahil.productservice.models.Product;
+import com.rahil.productservice.projections.ProductWithIdAndTitle;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,6 +17,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Override
     List<Product> findAll();
+
+    // HQL custom query
+    @Query("SELECT p.id as id, p.title as title from Product p where p.id = :x")
+    List<ProductWithIdAndTitle> randomMethod(Long x);
 }
 
 /*
