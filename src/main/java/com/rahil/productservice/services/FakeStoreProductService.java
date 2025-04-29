@@ -4,6 +4,7 @@ import com.rahil.productservice.dtos.FakeStoreProductDto;
 import com.rahil.productservice.exceptions.ProductNotFoundException;
 import com.rahil.productservice.models.Category;
 import com.rahil.productservice.models.Product;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
@@ -12,7 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-@Service
+@Service("fakeStoreProductService")
+//@Primary
 public class FakeStoreProductService implements ProductService {
     private RestTemplate restTemplate;
 

@@ -4,6 +4,7 @@ import com.rahil.productservice.exceptions.ProductNotFoundException;
 import com.rahil.productservice.models.Product;
 import com.rahil.productservice.services.FakeStoreProductService;
 import com.rahil.productservice.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
     private ProductService productService ;
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("selfProductService") ProductService productService) {
         this.productService = productService;
     }
     @GetMapping("/{id}")
@@ -41,6 +42,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") Long id) {
+        productService.deleteProduct(id);
 
     }
 
@@ -56,7 +58,8 @@ public class ProductController {
 
     @PostMapping()
     public Product createProduct(@RequestBody Product product) {
-        return null;
+        return productService.createProduct(product);
+
     }
 
 }
