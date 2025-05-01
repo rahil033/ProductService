@@ -8,6 +8,7 @@ import com.rahil.productservice.repositories.ProductRepository;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.Serial;
@@ -39,8 +40,9 @@ public class SelfProductService implements ProductService {
 
     @Override
     public Page<Product> getAllProducts(int PageNumber, int pageSize) {
+//        Sort sort = Sort.by("price").descending();
         return productRepository.findAll(PageRequest.of(
-                PageNumber, pageSize));
+                PageNumber, pageSize, Sort.by("price").ascending()));
     }
 
     @Override
