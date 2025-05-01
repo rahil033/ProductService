@@ -6,6 +6,8 @@ import com.rahil.productservice.models.Product;
 import com.rahil.productservice.repositories.CategoryRepository;
 import com.rahil.productservice.repositories.ProductRepository;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.io.Serial;
@@ -36,8 +38,9 @@ public class SelfProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(int PageNumber, int pageSize) {
+        return productRepository.findAll(PageRequest.of(
+                PageNumber, pageSize));
     }
 
     @Override

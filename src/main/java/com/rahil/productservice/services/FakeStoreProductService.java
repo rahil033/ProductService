@@ -5,6 +5,8 @@ import com.rahil.productservice.exceptions.ProductNotFoundException;
 import com.rahil.productservice.models.Category;
 import com.rahil.productservice.models.Product;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
@@ -38,7 +40,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public Page<Product> getAllProducts(int PageNumber, int pageSize) {
         FakeStoreProductDto[] fakeStoreProductDtoList = restTemplate.getForObject(
                 "https://fakestoreapi.com/products", FakeStoreProductDto[].class
         );
@@ -47,7 +49,7 @@ public class FakeStoreProductService implements ProductService {
         for (FakeStoreProductDto fakeStoreProductDto : fakeStoreProductDtoList) {
             products.add(convertFakeStoreProductDtoToProduct(fakeStoreProductDto));
         }
-        return products;
+        return new PageImpl<>(products);
     }
 
     @Override
